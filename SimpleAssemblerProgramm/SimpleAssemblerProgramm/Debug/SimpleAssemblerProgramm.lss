@@ -1,10 +1,10 @@
 
-AVRASM ver. 2.2.6  C:\Users\bh8332s\Desktop\SimpleAssemblerProgramm\SimpleAssemblerProgramm\main.asm Mon Oct 14 17:19:36 2019
+AVRASM ver. 2.2.6  H:\Documents\Architekturen\SimpleAssemblerProgramm\SimpleAssemblerProgramm\main.asm Mon Oct 14 18:53:23 2019
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.132\avrasm\inc\m8def.inc'
-C:\Users\bh8332s\Desktop\SimpleAssemblerProgramm\SimpleAssemblerProgramm\main.asm(7): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.132\avrasm\inc\m8def.inc'
+H:\Documents\Architekturen\SimpleAssemblerProgramm\SimpleAssemblerProgramm\main.asm(7): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.132\avrasm\inc\m8def.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.132\avrasm\inc\m8def.inc'
-C:\Users\bh8332s\Desktop\SimpleAssemblerProgramm\SimpleAssemblerProgramm\main.asm(7): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.132\avrasm\inc\m8def.inc'
+H:\Documents\Architekturen\SimpleAssemblerProgramm\SimpleAssemblerProgramm\main.asm(7): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.132\avrasm\inc\m8def.inc'
                                  
                                  ;
                                  
@@ -751,7 +751,7 @@ C:\Users\bh8332s\Desktop\SimpleAssemblerProgramm\SimpleAssemblerProgramm\main.as
                                  ; Created: 10.10.2018 10:55:20
                                  ; Author : ie4938e
                                  ;
-                                 .include "m8def.inc"	; Prozessordefinitionen laden
+                                 .include "m8def.inc"	; Prozessordefinitionen laden (RAMEND, DDR, PORTB)
                                  
                                  ;***** Created: 2011-02-09 12:03 ******* Source: ATmega8.xml *************
                                  ;*************************************************************************
@@ -802,26 +802,30 @@ C:\Users\bh8332s\Desktop\SimpleAssemblerProgramm\SimpleAssemblerProgramm\main.as
                                  
                                  start:
 000001 e50f                      	ldi r16, LOW( RAMEND )
-000002 bf0d                      	out SPL, r16
+000002 bf0d                      	out SPL, r16	;StackPointer-Low (8 Bits) - warum nicht ldi SPL, LOW( RAMEND )?
 000003 e004                      	ldi r16, HIGH( RAMEND )
-000004 bf0e                      	out SPH, r16
+000004 bf0e                      	out SPH, r16	;StackPointer-High (8 Bits)
                                  
                                  	;PB0 PB1 als Output
-000005 e003                      	ldi r16,0b00000011
-000006 bb07                      	out DDRB, r16
-                                 	
+000005 e003                      	ldi r16,0b00000011	;letzen beiden Leds als Output(1) -> wo im datasheet steht PB0/1 als LEDs
+000006 bb07                      	out DDRB, r16	;inhalt von r16 in DDRB schreiben -> eigentliche Daten werden auf Input-Bus gelegt Data-Direction-Register(um ausgelesen zu werden von Befehlen)
+                                 				
+                                 				;R16 = Arbeitsregister(allzweck)
+                                 
                                  main:
-000007 b308                      	in r16, PORTB	;PORTB lesen
-000008 e011                      	ldi r17,1		;r17 laden
-000009 2701                      	eor r16, r17	;Bit0 in r16 negieren
-00000a bb08                      	out PORTB, r16	;PORTB schreiben
-00000b d001                      	rcall delay		;kleine Pause (unterprogramm)
+000007 b308                      	in r16, PORTB	;PORTB lesen ?
+000008 e011                      	ldi r17,1		;r17 laden - 0-Bit gesetzt zu 1
+000009 2701                      	eor r16, r17	;Bit0 in r16 negieren - exclusive or -> negiert 0-Bit (00000011 mit 00000001 zu 00000010)
+00000a bb08                      	out PORTB, r16	;PORTB schreiben - Register zu I/O-Location
+00000b d001                      	rcall delay		;kleine Pause (unterprogramm) - relative call to subroutine - warum nicht rjmp oder gar jump?
                                  
 00000c cffa                      	rjmp main		;Ruecksprung
                                  
                                  delay:
 00000d 0000                      	nop
 00000e 9508                      	ret
+                                 
+                                 
 
 
 RESOURCE USE INFORMATION
