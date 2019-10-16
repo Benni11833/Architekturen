@@ -22,8 +22,9 @@
   <FILE>SimpleAssemblerProgramm.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <start><FILE>H:\Documents\Architekturen\SimpleAssemblerProgramm\SimpleAssemblerProgramm\main.asm</FILE><LINE>13</LINE></start>
-  <main><FILE>H:\Documents\Architekturen\SimpleAssemblerProgramm\SimpleAssemblerProgramm\main.asm</FILE><LINE>25</LINE></main>
-  <delay><FILE>H:\Documents\Architekturen\SimpleAssemblerProgramm\SimpleAssemblerProgramm\main.asm</FILE><LINE>34</LINE></delay>
+  <start><FILE>H:\Documents\Architekturen\SimpleAssemblerProgramm\SimpleAssemblerProgramm\main.asm</FILE><LINE>14</LINE></start>
+  <main><FILE>H:\Documents\Architekturen\SimpleAssemblerProgramm\SimpleAssemblerProgramm\main.asm</FILE><LINE>24</LINE></main>
+  <delay_start><FILE>H:\Documents\Architekturen\SimpleAssemblerProgramm\SimpleAssemblerProgramm\main.asm</FILE><LINE>40</LINE></delay_start>
+  <L1><FILE>H:\Documents\Architekturen\SimpleAssemblerProgramm\SimpleAssemblerProgramm\main.asm</FILE><LINE>50</LINE></L1>
  </LABELS>
 </ASSEMBLER_INFO>
