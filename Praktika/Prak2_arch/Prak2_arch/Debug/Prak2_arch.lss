@@ -3,27 +3,27 @@ Prak2_arch.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000054  00000000  00000000  00000054  2**1
+  0 .text         00000050  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000000a8  2**0
+  1 .data         00000000  00800060  00800060  000000a4  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  000000a8  2**0
+  2 .comment      00000030  00000000  00000000  000000a4  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000000d8  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000000d4  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  00000114  2**0
+  4 .debug_aranges 00000020  00000000  00000000  00000110  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000597  00000000  00000000  00000134  2**0
+  5 .debug_info   00000594  00000000  00000000  00000130  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000513  00000000  00000000  000006cb  2**0
+  6 .debug_abbrev 00000513  00000000  00000000  000006c4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000022f  00000000  00000000  00000bde  2**0
+  7 .debug_line   0000022f  00000000  00000000  00000bd7  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  00000e10  2**2
+  8 .debug_frame  00000024  00000000  00000000  00000e08  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000002fc  00000000  00000000  00000e34  2**0
+  9 .debug_str    000002fc  00000000  00000000  00000e2c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000010  00000000  00000000  00001130  2**0
+ 10 .debug_ranges 00000010  00000000  00000000  00001128  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -57,13 +57,13 @@ Disassembly of section .text:
   2e:	de bf       	out	0x3e, r29	; 62
   30:	cd bf       	out	0x3d, r28	; 61
   32:	02 d0       	rcall	.+4      	; 0x38 <main>
-  34:	0d c0       	rjmp	.+26     	; 0x50 <_exit>
+  34:	0b c0       	rjmp	.+22     	; 0x4c <_exit>
 
 00000036 <__bad_interrupt>:
   36:	e4 cf       	rjmp	.-56     	; 0x0 <__vectors>
 
 00000038 <main>:
-#define F_CPU 1000000UL
+#define F_CPU 1000UL
 #include <util/delay.h>
 
 int main(void)
@@ -83,16 +83,14 @@ int main(void)
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  42:	ef e4       	ldi	r30, 0x4F	; 79
-  44:	f3 ec       	ldi	r31, 0xC3	; 195
-  46:	31 97       	sbiw	r30, 0x01	; 1
-  48:	f1 f7       	brne	.-4      	; 0x46 <__SREG__+0x7>
-  4a:	00 c0       	rjmp	.+0      	; 0x4c <__SREG__+0xd>
-  4c:	00 00       	nop
-  4e:	f6 cf       	rjmp	.-20     	; 0x3c <main+0x4>
+  42:	82 e4       	ldi	r24, 0x42	; 66
+  44:	8a 95       	dec	r24
+  46:	f1 f7       	brne	.-4      	; 0x44 <__SREG__+0x5>
+  48:	00 c0       	rjmp	.+0      	; 0x4a <__SREG__+0xb>
+  4a:	f8 cf       	rjmp	.-16     	; 0x3c <main+0x4>
 
-00000050 <_exit>:
-  50:	f8 94       	cli
+0000004c <_exit>:
+  4c:	f8 94       	cli
 
-00000052 <__stop_program>:
-  52:	ff cf       	rjmp	.-2      	; 0x52 <__stop_program>
+0000004e <__stop_program>:
+  4e:	ff cf       	rjmp	.-2      	; 0x4e <__stop_program>
