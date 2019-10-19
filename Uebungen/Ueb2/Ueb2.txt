@@ -36,3 +36,15 @@ PinB => Port INput, um die aktuellen Werte (Low/high - 0/1) des Ports auszulesen
 PortB=> legt ein Low/High (0/1) an den PortB
 
 Aufgabe 10)
+a)
+zeile		Kommentar
+-------------------------
+2		PORTD 0 wird als Ausgang festgelegt
+4		PullUp von PD0 wird auf 0 gesetzt -> Liefert bei gedrücktem Zustand eine logische 1
+6		""			auf 1 gesetzt -> ""			    eine logische 0
+
+b)
+------------------------
+2		PORTD als Eingaenge festlegen
+4		PullUp von 1 wird angelegt an PD0 -> bei gedruecktem Taster  liefert er eine logische 0 -> wurde gedrueckt
+5		Einlesen von PD -> falls alle auf 1/r16 = 255 -> kein Taster wird gedrueckt
