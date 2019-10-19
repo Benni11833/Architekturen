@@ -1,0 +1,38 @@
+Aufgabe 6)
+
+zeile		Stack
+----------------------
+9		4,13,27
+10		37,4,13,27
+11		0,12,37,4,13,27	->Zeile 14 weiter
+12		
+13		27
+14		12,37,4,13,27
+15		37,4,13,27
+16		4,13,27
+17		13,27
+18		13,27
+19		13,27
+20		0, 13,27
+21		27		->Zeile 13 weiter(0, 13)
+
+Aufgabe 7) R18 = 4, da nach Zeile 17 R18 nicht mehr beschrieben wird
+
+zeile		r16	r17	r18
+-----------------------------------
+0		0	0	0
+1		8	0	0
+2		8	3	0		
+3		8	3	255
+4		8	3	0
+5		0	3	0
+6		0	1	0
+7		0	0	0
+8		0	0	0
+
+Aufgabe 9)
+DDRB => Markiert einzelnen Ports als Ausgang(1) oder Eingang(0)
+PinB => Port INput, um die aktuellen Werte (Low/high - 0/1) des Ports auszulesen
+PortB=> legt ein Low/High (0/1) an den PortB
+
+Aufgabe 10)
