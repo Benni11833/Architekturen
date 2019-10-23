@@ -3,27 +3,29 @@ Prak2_arch.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000050  00000000  00000000  00000054  2**1
+  0 .text         000000b4  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000000a4  2**0
+  1 .data         00000000  00800060  00800060  00000108  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  000000a4  2**0
+  2 .comment      00000030  00000000  00000000  00000108  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000000d4  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000138  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  00000110  2**0
+  4 .debug_aranges 00000048  00000000  00000000  00000174  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000594  00000000  00000000  00000130  2**0
+  5 .debug_info   000007ad  00000000  00000000  000001bc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000513  00000000  00000000  000006c4  2**0
+  6 .debug_abbrev 00000563  00000000  00000000  00000969  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000022f  00000000  00000000  00000bd7  2**0
+  7 .debug_line   00000339  00000000  00000000  00000ecc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  00000e08  2**2
+  8 .debug_frame  00000074  00000000  00000000  00001208  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000002fc  00000000  00000000  00000e2c  2**0
+  9 .debug_str    00000333  00000000  00000000  0000127c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000010  00000000  00000000  00001128  2**0
+ 10 .debug_loc    00000224  00000000  00000000  000015af  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000038  00000000  00000000  000017d3  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -56,41 +58,149 @@ Disassembly of section .text:
   2c:	d4 e0       	ldi	r29, 0x04	; 4
   2e:	de bf       	out	0x3e, r29	; 62
   30:	cd bf       	out	0x3d, r28	; 61
-  32:	02 d0       	rcall	.+4      	; 0x38 <main>
-  34:	0b c0       	rjmp	.+22     	; 0x4c <_exit>
+  32:	29 d0       	rcall	.+82     	; 0x86 <main>
+  34:	3d c0       	rjmp	.+122    	; 0xb0 <_exit>
 
 00000036 <__bad_interrupt>:
   36:	e4 cf       	rjmp	.-56     	; 0x0 <__vectors>
 
-00000038 <main>:
-#define F_CPU 1000UL
-#include <util/delay.h>
+00000038 <clearLEDs>:
+		PORTB ^= (1 << PB1);			//		0	0	0
+}
 
-int main(void)
-{
-    DDRB != (1 << PB0);
-  38:	87 b3       	in	r24, 0x17	; 23
-	
-	while(1){
-		PORTB ^= (1 << PB0);
-  3a:	91 e0       	ldi	r25, 0x01	; 1
-  3c:	88 b3       	in	r24, 0x18	; 24
-  3e:	89 27       	eor	r24, r25
-  40:	88 bb       	out	0x18, r24	; 24
+void clearLEDs(){
+	//PORTB ^= PORTB;			//		0	0	0
+	PORTB &= (1 << PB0) & (1 << PB1) & (1 << PB2);
+  38:	88 b3       	in	r24, 0x18	; 24
+  3a:	18 ba       	out	0x18, r1	; 24
+  3c:	08 95       	ret
+
+0000003e <setRedLED>:
+	//PORTB = 0;
+	//negieren = ~
+}
+
+void setRedLED(){
+	PORTB ^= (1 << PB0);		//			0	0	1
+  3e:	98 b3       	in	r25, 0x18	; 24
+  40:	81 e0       	ldi	r24, 0x01	; 1
+  42:	89 27       	eor	r24, r25
+  44:	88 bb       	out	0x18, r24	; 24
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  42:	82 e4       	ldi	r24, 0x42	; 66
-  44:	8a 95       	dec	r24
-  46:	f1 f7       	brne	.-4      	; 0x44 <__SREG__+0x5>
-  48:	00 c0       	rjmp	.+0      	; 0x4a <__SREG__+0xb>
-  4a:	f8 cf       	rjmp	.-16     	; 0x3c <main+0x4>
+  46:	8f e4       	ldi	r24, 0x4F	; 79
+  48:	93 ec       	ldi	r25, 0xC3	; 195
+  4a:	01 97       	sbiw	r24, 0x01	; 1
+  4c:	f1 f7       	brne	.-4      	; 0x4a <__SREG__+0xb>
+  4e:	00 c0       	rjmp	.+0      	; 0x50 <__SREG__+0x11>
+  50:	00 00       	nop
+	_delay_ms(200);
+	clearLEDs();
+  52:	f2 df       	rcall	.-28     	; 0x38 <clearLEDs>
+  54:	08 95       	ret
 
-0000004c <_exit>:
-  4c:	f8 94       	cli
+00000056 <setYellowLED>:
+}
 
-0000004e <__stop_program>:
-  4e:	ff cf       	rjmp	.-2      	; 0x4e <__stop_program>
+void setYellowLED(){
+	PORTB ^= (1 << PB1);//		0	1	0
+  56:	98 b3       	in	r25, 0x18	; 24
+  58:	82 e0       	ldi	r24, 0x02	; 2
+  5a:	89 27       	eor	r24, r25
+  5c:	88 bb       	out	0x18, r24	; 24
+  5e:	8f e4       	ldi	r24, 0x4F	; 79
+  60:	93 ec       	ldi	r25, 0xC3	; 195
+  62:	01 97       	sbiw	r24, 0x01	; 1
+  64:	f1 f7       	brne	.-4      	; 0x62 <setYellowLED+0xc>
+  66:	00 c0       	rjmp	.+0      	; 0x68 <setYellowLED+0x12>
+  68:	00 00       	nop
+	_delay_ms(200);
+	clearLEDs();
+  6a:	e6 df       	rcall	.-52     	; 0x38 <clearLEDs>
+  6c:	08 95       	ret
+
+0000006e <setGreenLED>:
+}
+
+void setGreenLED(){
+	PORTB ^= (1 << PB2);//		1 	0	0
+  6e:	98 b3       	in	r25, 0x18	; 24
+  70:	84 e0       	ldi	r24, 0x04	; 4
+  72:	89 27       	eor	r24, r25
+  74:	88 bb       	out	0x18, r24	; 24
+  76:	8f e4       	ldi	r24, 0x4F	; 79
+  78:	93 ec       	ldi	r25, 0xC3	; 195
+  7a:	01 97       	sbiw	r24, 0x01	; 1
+  7c:	f1 f7       	brne	.-4      	; 0x7a <setGreenLED+0xc>
+  7e:	00 c0       	rjmp	.+0      	; 0x80 <setGreenLED+0x12>
+  80:	00 00       	nop
+	_delay_ms(200);
+	clearLEDs();
+  82:	da df       	rcall	.-76     	; 0x38 <clearLEDs>
+  84:	08 95       	ret
+
+00000086 <main>:
+}
+
+int main(void)
+{
+    DDRB |= (1 << PB0) | (1 << PB1) | (1 << PB2);	//PB0 als Ausgang setzten -> 1
+  86:	87 b3       	in	r24, 0x17	; 23
+  88:	87 60       	ori	r24, 0x07	; 7
+  8a:	87 bb       	out	0x17, r24	; 23
+	int flag = 1;
+  8c:	c1 e0       	ldi	r28, 0x01	; 1
+  8e:	d0 e0       	ldi	r29, 0x00	; 0
+		if(flag){
+			setRedLED();
+			flag = 0;
+		}else{
+			setGreenLED();
+			flag = 1;
+  90:	ee 24       	eor	r14, r14
+  92:	e3 94       	inc	r14
+  94:	f1 2c       	mov	r15, r1
+	int flag = 1;
+	while(1){	
+							//PORTB		0	0	0
+		if(flag){
+			setRedLED();
+			flag = 0;
+  96:	00 e0       	ldi	r16, 0x00	; 0
+  98:	10 e0       	ldi	r17, 0x00	; 0
+{
+    DDRB |= (1 << PB0) | (1 << PB1) | (1 << PB2);	//PB0 als Ausgang setzten -> 1
+	int flag = 1;
+	while(1){	
+							//PORTB		0	0	0
+		if(flag){
+  9a:	cd 2b       	or	r28, r29
+  9c:	21 f0       	breq	.+8      	; 0xa6 <main+0x20>
+			setRedLED();
+  9e:	cf df       	rcall	.-98     	; 0x3e <setRedLED>
+			flag = 0;
+  a0:	c0 2f       	mov	r28, r16
+  a2:	d1 2f       	mov	r29, r17
+  a4:	03 c0       	rjmp	.+6      	; 0xac <main+0x26>
+		}else{
+			setGreenLED();
+  a6:	e3 df       	rcall	.-58     	; 0x6e <setGreenLED>
+			flag = 1;
+  a8:	ce 2d       	mov	r28, r14
+  aa:	df 2d       	mov	r29, r15
+		}
+		
+		setYellowLED();
+  ac:	d4 df       	rcall	.-88     	; 0x56 <setYellowLED>
+	}
+  ae:	f5 cf       	rjmp	.-22     	; 0x9a <main+0x14>
+
+000000b0 <_exit>:
+  b0:	f8 94       	cli
+
+000000b2 <__stop_program>:
+  b2:	ff cf       	rjmp	.-2      	; 0xb2 <__stop_program>
