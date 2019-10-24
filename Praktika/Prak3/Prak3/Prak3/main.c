@@ -16,14 +16,14 @@ void init(){
 }
 
 int Taster1_pressed(){
-	if(PIND == (PIND ^ (1 << PD2)))	//fixen
+	if(PIND != (PIND ^ (1 << PD2)))
 		return 1;
 	else
 		return 0;
 }
 
 int Taster2_pressed(){
-	if(PIND == 0xfa)
+	if(PIND != (PIND ^ (1 << PD1)))
 		return 1;
 	else
 		return 0;
@@ -35,7 +35,7 @@ int main(void)
 	
     while (1) 
     {
-		if(Taster1_pressed()) //0xfb -> PD2 gedrueckt
+		if(Taster1_pressed())
 			PORTB |= (1 << PB0);
 		else if(Taster2_pressed())
 			PORTB |= (1 << PB1);
