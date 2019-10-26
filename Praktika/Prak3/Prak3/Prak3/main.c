@@ -16,14 +16,14 @@ void init(){
 }
 
 int Taster1_pressed(){
-	if(PIND != (PIND ^ (1 << PD2)))
+	if(PIND != (PIND | (1 << PD2)))
 		return 1;
 	else
 		return 0;
 }
 
 int Taster2_pressed(){
-	if(PIND != (PIND ^ (1 << PD1)))
+	if(PIND != (PIND | (1 << PD1)))
 		return 1;
 	else
 		return 0;
