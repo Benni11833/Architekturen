@@ -1,0 +1,16 @@
+Aufgabe 11)
+ a) 0 -> Einerkompl = 1111; Zweierkompl = 0000; Vorzeichen = 0000
+ d) 00001 -> EInerKompl = 10000; ZweierKompl = 10001
+ e) [-2^n; 2^(n-1)[
+
+Aufgabe 12)
+ a)
+ (i) 	2+4+16+64+128+256 = 470 oder 1 + 8 + 32 = 41
+ (ii)	4 + 6*8 + 2*8² + 3*8³ = 1716
+ (iii)	3 + 11*16 + 12*16² + 6*16⁻¹ + 13*16⁻² = 3251, 4258
+ (iiii)	2 + 8 + 0,5625 = 10,5 oder 1 + 4 + 0,625 = 5,625
+
+ b)
+	Dual	Oktal	Hex
+	-------------------
+	 
