@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.6  H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm Wed Oct 30 11:00:30 2019
+AVRASM ver. 2.2.6  H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm Wed Oct 30 11:47:28 2019
 
 
 EQU  SIGNATURE_000 0000001e
@@ -507,15 +507,17 @@ EQU  ACIaddr      00000010
 EQU  TWIaddr      00000011
 EQU  SPMRaddr     00000012
 EQU  INT_VECTORS_SIZE 00000013
-DEF  ledOutput    r21
-DEF  INT0_state   r22
-DEF  INT1_state   r23
-DEF  tmpEORreg    r24
-CSEG initialize   00000002
-CSEG handleINT0   00000015
-CSEG start        00000014
-CSEG toggleLED0   0000001e
-CSEG offLED0      0000001a
-CSEG delay_200ms  00000027
-CSEG onLED0       00000024
-CSEG L1           0000002a
+DEF  State        r21
+DEF  tmpEORreg    r22
+CSEG initialize   00000003
+CSEG handleINT0   0000001a
+CSEG handleINT1   0000001d
+CSEG main         00000013
+CSEG toggleLED0   00000020
+CSEG toggleLED1   0000002c
+CSEG offLED0      00000025
+CSEG offLED1      00000031
+CSEG onLED0       00000029
+CSEG delay_200ms  00000038
+CSEG onLED1       00000035
+CSEG L1           0000003b
