@@ -45,7 +45,7 @@ initialize:
 main:
 	cpi State, 0b00000001	;-> LED 0 togglen
 	breq toggleLED0
-	cpi State, 0b00000010
+	cpi State, 0b00000010	;-> LED 1 togglen
 	breq toggleLED1
 
 	;State == 0, da er sonst an main gesprungen wäre
@@ -88,7 +88,7 @@ offLED0:
 	out PORTB, r16
     ret
 
-onLED0:
+onLED0:	;schaltet alle anderen aus
 	ldi r16, 0b00000001
     out PORTB, r16
     ret
@@ -109,7 +109,7 @@ offLED1:
 	out PORTB, r16
     ret
 
-onLED1:
+onLED1:	;schaltet alle anderen aus
 	ldi r16, 0b00000010
     out PORTB, r16
     ret
