@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.6  H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm Wed Nov 06 09:08:57 2019
+AVRASM ver. 2.2.6  H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm Wed Nov 06 10:45:11 2019
 
 
 EQU  SIGNATURE_000 0000001e
@@ -509,15 +509,17 @@ EQU  SPMRaddr     00000012
 EQU  INT_VECTORS_SIZE 00000013
 DEF  State        r21
 DEF  tmpEORreg    r22
-CSEG initialize   00000003
-CSEG handleINT0   0000001b
-CSEG handleINT1   00000021
-CSEG main         00000013
-CSEG toggleLED0   00000027
-CSEG toggleLED1   00000033
-CSEG offLED0      0000002c
-CSEG offLED1      00000038
-CSEG onLED0       00000030
-CSEG delay_200ms  0000003f
-CSEG onLED1       0000003c
-CSEG L1           00000042
+CSEG initialize   00000001
+CSEG main         0000000c
+CSEG state_change 00000016
+CSEG L2           00000011
+CSEG delay_200ms  0000003d
+CSEG toggleLED0   00000025
+CSEG toggleLED1   00000031
+CSEG state_change_to1 0000001d
+CSEG state_change_to2 00000021
+CSEG onLED0       0000002e
+CSEG offLED0      0000002a
+CSEG onLED1       0000003a
+CSEG offLED1      00000036
+CSEG L1           00000040

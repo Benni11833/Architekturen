@@ -1,0 +1,40 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.6</VERSION>
+ <DEVICE>"ATmega8"</DEVICE>
+ <WORKING_DIR>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.132\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.132\avrasm\inc\m8def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\Debug\Polling.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>Polling.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>Polling.map</FILE>
+  <FILE>Polling.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <initialize><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm</FILE><LINE>14</LINE></initialize>
+  <main><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm</FILE><LINE>30</LINE></main>
+  <state_change><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm</FILE><LINE>48</LINE></state_change>
+  <L2><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm</FILE><LINE>38</LINE></L2>
+  <delay_200ms><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm</FILE><LINE>123</LINE></delay_200ms>
+  <toggleLED0><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm</FILE><LINE>83</LINE></toggleLED0>
+  <toggleLED1><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm</FILE><LINE>104</LINE></toggleLED1>
+  <state_change_to1><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm</FILE><LINE>61</LINE></state_change_to1>
+  <state_change_to2><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm</FILE><LINE>72</LINE></state_change_to2>
+  <onLED0><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm</FILE><LINE>97</LINE></onLED0>
+  <offLED0><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm</FILE><LINE>91</LINE></offLED0>
+  <onLED1><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm</FILE><LINE>118</LINE></onLED1>
+  <offLED1><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm</FILE><LINE>112</LINE></offLED1>
+  <L1><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm</FILE><LINE>133</LINE></L1>
+ </LABELS>
+</ASSEMBLER_INFO>

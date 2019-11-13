@@ -1,6 +1,4 @@
 ;
-; Prak3_assembler.asm
-;
 ; Created: 24.10.2019 17:24:24
 ; Author : bh8332s
 ;
@@ -12,11 +10,6 @@
 
 .org 0x000
 	rjmp initialize
-.org INT0addr   ;INT0_vect
-    rjmp handleINT0
-.org INT1addr
-	rjmp handleINT1
-
 
 initialize:
     ldi r16, LOW(RAMEND)
@@ -34,31 +27,38 @@ initialize:
     ldi r16, 0xFF
     out PORTD, r16              ;PullUps fuer Taster
 
-	ldi r16, 0b00001010		;The falling edge of INT0 & INT1 generates an interrupt request -> Seite 67
-	out MCUCR, r16
-
-	ldi r16, 0b11000000
-	out GICR, r16			;INT0 & INT1 einschalten -> Seite 67
-
-	sei
-
 main:
-	cpi State, 0b00000001	;-> LED 0 togglen
-	breq toggleLED0
-	cpi State, 0b00000010	;-> LED 1 togglen
-	breq toggleLED1
+	rcall state_change
 
-	;State == 0, da er sonst an main gesprungen wäre
-	rcall offLED0
-	rcall offLED1
-	sleep
+	cpi State, 0
+	brne L2
+	rcall delay_200ms
+	rjmp main
+
+L2:
+	cpi State, 0b00000001
+	breq toggleLED0
+	
+	cpi State, 0b00000010
+	breq toggleLED1
 
 	rjmp main
 
 
+state_change:
+	in r24, PIND
 
-handleINT0:	; state == 0 -> LED0 togglen - state = 1; state != 0 -> LED0 aus - state = 0
-	in r23, SREG
+	ANDI r24, (1 << PD2)
+	breq state_change_to1
+
+	in r24, PIND	;sbis PIND, PD2
+
+	ANDI r24, (1 << PD3)
+	breq state_change_to2
+
+	ret
+
+state_change_to1:	; state == 0 -> LED0 togglen - state = 1; state != 0 -> LED0 aus - state = 0
 
 	ldi r17, 0b00000001
 
@@ -67,12 +67,9 @@ handleINT0:	; state == 0 -> LED0 togglen - state = 1; state != 0 -> LED0 aus - s
 
 	eor State, r17
 
-	out SREG, r23
+	ret
 
-	reti
-
-handleINT1: ; state == 0 -> LED1 togglen - state = 2; state != 0 -> LED1 aus - state = 1
-	in r23, SREG
+state_change_to2: ; state == 0 -> LED1 togglen - state = 2; state != 0 -> LED1 aus - state = 1
 
 	ldi r17, 0b00000010
 
@@ -80,9 +77,8 @@ handleINT1: ; state == 0 -> LED1 togglen - state = 2; state != 0 -> LED1 aus - s
 	ANDI State, 0b00000010
 
 	eor State, r17
-	
-	out SREG, r23
-	reti
+
+	ret
 
 toggleLED0:
 	rcall onLED0

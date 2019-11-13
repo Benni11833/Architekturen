@@ -1,10 +1,10 @@
 
-AVRASM ver. 2.2.6  H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm Wed Nov 06 09:08:57 2019
+AVRASM ver. 2.2.6  H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm Wed Nov 06 10:45:11 2019
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.132\avrasm\inc\m8def.inc'
-H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm(8): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.132\avrasm\inc\m8def.inc'
+H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm(6): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.132\avrasm\inc\m8def.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.132\avrasm\inc\m8def.inc'
-H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm(8): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.132\avrasm\inc\m8def.inc'
+H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Polling\Polling\main.asm(6): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.132\avrasm\inc\m8def.inc'
                                  
                                  ;
                                  
@@ -746,8 +746,6 @@ H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.a
                                  
                                  ; ***** END OF FILE ******************************************************
                                  
-                                 ; Prak3_assembler.asm
-                                 ;
                                  ; Created: 24.10.2019 17:24:24
                                  ; Author : bh8332s
                                  ;
@@ -801,118 +799,116 @@ H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.a
                                  .def tmpEORreg = r22	;um 0. Bit zu togglen
                                  
                                  .org 0x000
-000000 c002                      	rjmp initialize
-                                 .org INT0addr   ;INT0_vect
-000001 c019                          rjmp handleINT0
-                                 .org INT1addr
-000002 c01e                      	rjmp handleINT1
-                                 
+000000 c000                      	rjmp initialize
                                  
                                  initialize:
-000003 e50f                          ldi r16, LOW(RAMEND)
-000004 bf0d                          out SPL, r16
-000005 e004                          ldi r16, HIGH(RAMEND)
-000006 bf0e                          out SPH, r16
+000001 e50f                          ldi r16, LOW(RAMEND)
+000002 bf0d                          out SPL, r16
+000003 e004                          ldi r16, HIGH(RAMEND)
+000004 bf0e                          out SPH, r16
                                  
-000007 e050                      	ldi State, 0
+000005 e050                      	ldi State, 0
                                  
-000008 e003                          ldi r16, 0b00000011 ;LED 0,1 als Ausgang
-000009 bb07                          out DDRB, r16
-00000a e000                          ldi r16, 0x00
-00000b bb01                          out DDRD, r16
+000006 e003                          ldi r16, 0b00000011 ;LED 0,1 als Ausgang
+000007 bb07                          out DDRB, r16
+000008 e000                          ldi r16, 0x00
+000009 bb01                          out DDRD, r16
                                  
-00000c ef0f                          ldi r16, 0xFF
-00000d bb02                          out PORTD, r16              ;PullUps fuer Taster
-                                 
-00000e e00a                      	ldi r16, 0b00001010		;The falling edge of INT0 & INT1 generates an interrupt request -> Seite 67
-00000f bf05                      	out MCUCR, r16
-                                 
-000010 ec00                      	ldi r16, 0b11000000
-000011 bf0b                      	out GICR, r16			;INT0 & INT1 einschalten -> Seite 67
-                                 
-000012 9478                      	sei
+00000a ef0f                          ldi r16, 0xFF
+00000b bb02                          out PORTD, r16              ;PullUps fuer Taster
                                  
                                  main:
-000013 3051                      	cpi State, 0b00000001	;-> LED 0 togglen
-000014 f091                      	breq toggleLED0
-000015 3052                      	cpi State, 0b00000010	;-> LED 1 togglen
-000016 f0e1                      	breq toggleLED1
+00000c d009                      	rcall state_change
                                  
-                                 	;State == 0, da er sonst an main gesprungen wäre
-000017 d014                      	rcall offLED0
-000018 d01f                      	rcall offLED1
-000019 9588                      	sleep
+00000d 3050                      	cpi State, 0
+00000e f411                      	brne L2
+00000f d02d                      	rcall delay_200ms
+000010 cffb                      	rjmp main
                                  
-00001a cff8                      	rjmp main
-                                 
-                                 
-                                 
-                                 handleINT0:	; state == 0 -> LED0 togglen - state = 1; state != 0 -> LED0 aus - state = 0
-00001b b77f                      	in r23, SREG
-                                 
-00001c e011                      	ldi r17, 0b00000001
-                                 
-                                 	;State clearen
-00001d 7051                      	ANDI State, 0b0000001
-                                 
-00001e 2751                      	eor State, r17
-                                 
-00001f bf7f                      	out SREG, r23
-                                 
-000020 9518                      	reti
-                                 
-                                 handleINT1: ; state == 0 -> LED1 togglen - state = 2; state != 0 -> LED1 aus - state = 1
-000021 b77f                      	in r23, SREG
-                                 
-000022 e012                      	ldi r17, 0b00000010
-                                 
-                                 	;State clearen
-000023 7052                      	ANDI State, 0b00000010
-                                 
-000024 2751                      	eor State, r17
+                                 L2:
+000011 3051                      	cpi State, 0b00000001
+000012 f091                      	breq toggleLED0
                                  	
-000025 bf7f                      	out SREG, r23
-000026 9518                      	reti
+000013 3052                      	cpi State, 0b00000010
+000014 f0e1                      	breq toggleLED1
+                                 
+000015 cff6                      	rjmp main
+                                 
+                                 
+                                 state_change:
+000016 b380                      	in r24, PIND
+                                 
+000017 7084                      	ANDI r24, (1 << PD2)
+000018 f021                      	breq state_change_to1
+                                 
+000019 b380                      	in r24, PIND	;sbis PIND, PD2
+                                 
+00001a 7088                      	ANDI r24, (1 << PD3)
+00001b f029                      	breq state_change_to2
+                                 
+00001c 9508                      	ret
+                                 
+                                 state_change_to1:	; state == 0 -> LED0 togglen - state = 1; state != 0 -> LED0 aus - state = 0
+                                 
+00001d e011                      	ldi r17, 0b00000001
+                                 
+                                 	;State clearen
+00001e 7051                      	ANDI State, 0b0000001
+                                 
+00001f 2751                      	eor State, r17
+                                 
+000020 9508                      	ret
+                                 
+                                 state_change_to2: ; state == 0 -> LED1 togglen - state = 2; state != 0 -> LED1 aus - state = 1
+                                 
+000021 e012                      	ldi r17, 0b00000010
+                                 
+                                 	;State clearen
+000022 7052                      	ANDI State, 0b00000010
+                                 
+000023 2751                      	eor State, r17
+                                 
+000024 9508                      	ret
                                  
                                  toggleLED0:
-000027 d008                      	rcall onLED0
-000028 d016                      	rcall delay_200ms
-000029 d002                      	rcall offLED0
-00002a d014                      	rcall delay_200ms
+000025 d008                      	rcall onLED0
+000026 d016                      	rcall delay_200ms
+000027 d002                      	rcall offLED0
+000028 d014                      	rcall delay_200ms
                                  
-00002b cfe7                      	rjmp main
+000029 cfe2                      	rjmp main
                                  
                                  offLED0:
-00002c b308                      	in r16, PORTB
-00002d 7f0e                          ANDI r16, 0b11111110
-00002e bb08                      	out PORTB, r16
-00002f 9508                          ret
+00002a b308                      	in r16, PORTB
+00002b 7f0e                          ANDI r16, 0b11111110
+00002c bb08                      	out PORTB, r16
+00002d 9508                          ret
                                  
                                  onLED0:	;schaltet alle anderen aus
-000030 e001                      	ldi r16, 0b00000001
-000031 bb08                          out PORTB, r16
-000032 9508                          ret
+00002e e001                      	ldi r16, 0b00000001
+00002f bb08                          out PORTB, r16
+000030 9508                          ret
                                  
                                  
                                  
                                  toggleLED1:
-000033 d008                      	rcall onLED1
-000034 d00a                      	rcall delay_200ms
-000035 d002                      	rcall offLED1
-000036 d008                      	rcall delay_200ms
+000031 d008                      	rcall onLED1
+000032 d00a                      	rcall delay_200ms
+000033 d002                      	rcall offLED1
+000034 d008                      	rcall delay_200ms
                                  
-000037 cfdb                      	rjmp main
+000035 cfd6                      	rjmp main
                                  
                                  offLED1:
-000038 b308                      	in r16, PORTB
-000039 7f0d                          ANDI r16, 0b11111101
-00003a bb08                      	out PORTB, r16
-00003b 9508                          ret
+000036 b308                      	in r16, PORTB
+000037 7f0d                          ANDI r16, 0b11111101
+000038 bb08                      	out PORTB, r16
+000039 9508                          ret
                                  
                                  onLED1:	;schaltet alle anderen aus
-00003c e002                      	ldi r16, 0b00000010
-00003d bb08                          out PORTB, r16
-00003e 9508                          ret
+00003a e002                      	ldi r16, 0b00000010
+00003b bb08                          out PORTB, r16
+00003c 9508                          ret
                                  
                                  delay_200ms:
                                  ; Generated by delay loop calculator
@@ -921,16 +917,16 @@ H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.a
                                  ; Delay 200 000 cycles
                                  ; 200ms at 1 MHz
                                  
-00003f e022                          ldi  r18, 2
-000040 e034                          ldi  r19, 4
-000041 eb4b                          ldi  r20, 187
-000042 954a                      L1: dec  r20
-000043 f7f1                          brne L1
-000044 953a                          dec  r19
-000045 f7e1                          brne L1
-000046 952a                          dec  r18
-000047 f7d1                          brne L1
-000048 0000                          nop
+00003d e022                          ldi  r18, 2
+00003e e034                          ldi  r19, 4
+00003f eb4b                          ldi  r20, 187
+000040 954a                      L1: dec  r20
+000041 f7f1                          brne L1
+000042 953a                          dec  r19
+000043 f7e1                          brne L1
+000044 952a                          dec  r18
+000045 f7d1                          brne L1
+000046 0000                          nop
 
 
 RESOURCE USE INFORMATION
@@ -950,37 +946,37 @@ counted separately from r26..r31 here.
 "ATmega8" register use summary:
 x  :   0 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  24 r17:   4 r18:   2 r19:   2 r20:   2 
-r21:   7 r22:   0 r23:   4 r24:   0 r25:   0 r26:   0 r27:   0 r28:   0 
+r13:   0 r14:   0 r15:   0 r16:  20 r17:   4 r18:   2 r19:   2 r20:   2 
+r21:   8 r22:   0 r23:   0 r24:   4 r25:   0 r26:   0 r27:   0 r28:   0 
 r29:   0 r30:   0 r31:   0 
 Registers used: 7 out of 35 (20.0%)
 
 "ATmega8" instruction use summary:
 .lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   0 and   :   0 
-andi  :   4 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
-brcc  :   0 brcs  :   0 breq  :   2 brge  :   0 brhc  :   0 brhs  :   0 
-brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 brne  :   3 
+andi  :   6 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
+brcc  :   0 brcs  :   0 breq  :   4 brge  :   0 brhc  :   0 brhs  :   0 
+brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 brne  :   4 
 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 brvs  :   0 
 bset  :   0 bst   :   0 cbi   :   0 cbr   :   0 clc   :   0 clh   :   0 
 cli   :   0 cln   :   0 clr   :   0 cls   :   0 clt   :   0 clv   :   0 
-clz   :   0 com   :   0 cp    :   0 cpc   :   0 cpi   :   2 cpse  :   0 
+clz   :   0 com   :   0 cp    :   0 cpc   :   0 cpi   :   3 cpse  :   0 
 dec   :   3 eor   :   2 fmul  :   0 fmuls :   0 fmulsu:   0 icall :   0 
-ijmp  :   0 in    :   4 inc   :   0 ld    :   0 ldd   :   0 ldi   :  15 
+ijmp  :   0 in    :   4 inc   :   0 ld    :   0 ldd   :   0 ldi   :  13 
 lds   :   0 lpm   :   0 lsl   :   0 lsr   :   0 mov   :   0 movw  :   0 
 mul   :   0 muls  :   0 mulsu :   0 neg   :   0 nop   :   1 or    :   0 
-ori   :   0 out   :  13 pop   :   0 push  :   0 rcall :  10 ret   :   5 
-reti  :   2 rjmp  :   6 rol   :   0 ror   :   0 sbc   :   0 sbci  :   0 
+ori   :   0 out   :   9 pop   :   0 push  :   0 rcall :  10 ret   :   8 
+reti  :   0 rjmp  :   5 rol   :   0 ror   :   0 sbc   :   0 sbci  :   0 
 sbi   :   0 sbic  :   0 sbis  :   0 sbiw  :   0 sbr   :   0 sbrc  :   0 
-sbrs  :   0 sec   :   0 seh   :   0 sei   :   1 sen   :   0 ser   :   0 
-ses   :   0 set   :   0 sev   :   0 sez   :   0 sleep :   1 spm   :   0 
+sbrs  :   0 sec   :   0 seh   :   0 sei   :   0 sen   :   0 ser   :   0 
+ses   :   0 set   :   0 sev   :   0 sez   :   0 sleep :   0 spm   :   0 
 st    :   0 std   :   0 sts   :   0 sub   :   0 subi  :   0 swap  :   0 
 tst   :   0 wdr   :   0 
-Instructions used: 16 out of 110 (14.5%)
+Instructions used: 13 out of 110 (11.8%)
 
 "ATmega8" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000094    148      0    148    8192   1.8%
+[.cseg] 0x000000 0x000090    144      0    144    8192   1.8%
 [.dseg] 0x000060 0x000060      0      0      0    1024   0.0%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 

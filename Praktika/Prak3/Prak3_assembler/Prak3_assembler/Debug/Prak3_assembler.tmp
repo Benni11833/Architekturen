@@ -23,16 +23,16 @@
  </OUTPUT_FILES>
  <LABELS>
   <initialize><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>21</LINE></initialize>
-  <handleINT0><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>59</LINE></handleINT0>
-  <handleINT1><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>68</LINE></handleINT1>
+  <handleINT0><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>60</LINE></handleINT0>
+  <handleINT1><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>74</LINE></handleINT1>
   <main><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>45</LINE></main>
-  <toggleLED0><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>77</LINE></toggleLED0>
-  <toggleLED1><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>98</LINE></toggleLED1>
-  <offLED0><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>85</LINE></offLED0>
-  <offLED1><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>106</LINE></offLED1>
-  <onLED0><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>91</LINE></onLED0>
-  <delay_200ms><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>117</LINE></delay_200ms>
-  <onLED1><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>112</LINE></onLED1>
-  <L1><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>127</LINE></L1>
+  <toggleLED0><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>87</LINE></toggleLED0>
+  <toggleLED1><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>108</LINE></toggleLED1>
+  <offLED0><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>95</LINE></offLED0>
+  <offLED1><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>116</LINE></offLED1>
+  <onLED0><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>101</LINE></onLED0>
+  <delay_200ms><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>127</LINE></delay_200ms>
+  <onLED1><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>122</LINE></onLED1>
+  <L1><FILE>H:\Documents\Architekturen\Praktika\Prak3\Prak3_assembler\Prak3_assembler\main.asm</FILE><LINE>137</LINE></L1>
  </LABELS>
 </ASSEMBLER_INFO>
