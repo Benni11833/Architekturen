@@ -1,2 +1,3 @@
 ﻿  Quelle.cpp
+h:\documents\architekturen\praktika\prak5\prak5\quelle.cpp(62): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
   Prak5.vcxproj -> H:\Documents\Architekturen\Praktika\Prak5\Debug\Prak5.exe

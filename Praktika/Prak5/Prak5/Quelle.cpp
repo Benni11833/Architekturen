@@ -1,4 +1,4 @@
-//#include "Semaphore.h"
+#include "Semaphore.h"
 #include <iostream>
 #include <vector>
 #include <thread>
@@ -35,25 +35,22 @@ void writeLargeAlphabet() {
 	//mtx.unlock();
 }
 
-void testF() {
-	std::unique_lock<std::mutex> lk(mtx);
-	cv.wait(lk, [] {return ready; });
-	std::cout << "In testF\n";
+void testF(Semaphore& s, int i) {
+	s.darfIch();
 
-	ready = false;
-	lk.unlock();
-	cv.notify_one();
+	std::cout << "In testF -> i=" << i << std::endl;
+	for (int i = 0; i < 9999999999999; i++)
+		//std::cout << "testF->i=" << i << " ";
+		;
+	std::cout << "Ende testF -> i=" << i << std::endl;
+	s.fertig();
 }
 
 
-
-void testF2() {
-
-}
 
 int main() {
 
-	/*std::vector<std::thread> threads;
+	std::vector<std::thread> threads;
 
 	threads.push_back(std::thread(writeSmallAlphabet));
 	
@@ -63,13 +60,11 @@ int main() {
 
 	//std::for_each(threads.begin(), threads.end(), [](std::thread t) {t.join(); });
 	for (auto i = 0; i < threads.size(); i++)
-		threads.at(i).join();*/
+		threads.at(i).join();
 
-	std::thread testT(testF);
-	std::thread testT2(testF2);
-
-	testT.join();
-	testT2.join();
+	/*Semaphore s1{3};
+	for (int i = 0; i < 13; i++)
+		testF(s1, i);*/
 
 	std::cin.get();
 	return 0;
