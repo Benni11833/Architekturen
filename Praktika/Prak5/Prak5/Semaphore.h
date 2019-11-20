@@ -1,21 +1,25 @@
 #pragma once
 
-#include <queue>
 #include <thread>
 #include <mutex>
+#include <condition_variable>
 
 class Semaphore{
 private:
-	int maxThreadCount;
+    std::condition_variable cv;
+    int maxThreadCount;
 public:
-	bool darfIch() {
-		//wait();
-		return maxThreadCount > 0;
-	}
-	void fertig() {
-		maxThreadCount++;
-	}
-	Semaphore(int count) {
-		this->maxThreadCount = count;
-	}
+    Semaphore(int maxThreadCount){
+        this->maxThreadCount = maxThreadCount;
+    }
+    void darfIch(){
+        std::unique_lock<std::mutex> lk(cv);
+        cv.wait(lk, []{return !this->maxThreadCount;});
+        --maxThreadCount;
+        return;
+    }
+    void fertig(){
+        maxThreadCount++;
+        cv.notify_one();
+    }
 };

@@ -1,4 +1,4 @@
-#include "Semaphore.h"
+//#include "Semaphore.h"
 #include <iostream>
 #include <vector>
 #include <thread>
@@ -48,14 +48,7 @@ void testF() {
 
 
 void testF2() {
-	s.darfIch();
-	/*std::unique_lock<std::mutex> lk(mtx);
-	cv.wait(lk, [] {return !ready; });
-	std::cout << "In testF2\n";
 
-	ready = true;
-	lk.unlock();
-	cv.notify_one();*/
 }
 
 int main() {
