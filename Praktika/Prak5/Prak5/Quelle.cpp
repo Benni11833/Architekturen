@@ -9,6 +9,7 @@
 std::mutex mtx;
 std::condition_variable cv;
 
+Semaphore s1{ 3 };
 bool ready = false;
 
 void writeSmallAlphabet() {
@@ -35,24 +36,23 @@ void writeLargeAlphabet() {
 	//mtx.unlock();
 }
 
-void testF(Semaphore& s, int i) {
-	s.darfIch();
+void testF(int i) {
+	s1.darfIch();
 
 	std::cout << "In testF -> i=" << i << std::endl;
-	for (int i = 0; i < 9999999999999; i++)
+	for (int i = 0; i < 99; i++)
 		//std::cout << "testF->i=" << i << " ";
 		;
 	std::cout << "Ende testF -> i=" << i << std::endl;
-	s.fertig();
+	s1.fertig();
 }
-
 
 
 int main() {
 
 	std::vector<std::thread> threads;
 
-	threads.push_back(std::thread(writeSmallAlphabet));
+	/*threads.push_back(std::thread(writeSmallAlphabet));
 	
 	threads.push_back(std::thread(writeNatNumbers));
 
@@ -60,11 +60,15 @@ int main() {
 
 	//std::for_each(threads.begin(), threads.end(), [](std::thread t) {t.join(); });
 	for (auto i = 0; i < threads.size(); i++)
-		threads.at(i).join();
+		threads.at(i).join();*/
 
-	/*Semaphore s1{3};
+
 	for (int i = 0; i < 13; i++)
-		testF(s1, i);*/
+		threads.push_back(std::thread(testF, 0));
+		//testF(s1, i);
+	
+	for (auto i = 0; i < threads.size(); i++)
+		threads.at(i).join();
 
 	std::cin.get();
 	return 0;
