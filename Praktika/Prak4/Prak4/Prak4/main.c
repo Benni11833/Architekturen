@@ -5,23 +5,40 @@
  * Author : bh8332s
  */ 
 
-#include <avr/io.h>
+#define F_CPU 1000000UL
 
-void setUp(){
-	TCCR0 |= ((1 << CS02) | (1 << CS00));
-	DDRB |= (1 << 0);
+#include <avr/io.h>
+#include <avr/interrupt.h>
+
+volatile uint32_t system_clock = 0;
+
+ISR(TIMER0_OVF_vect){
+	
+	system_clock++;
+	
+	TCNT0 = 255;
 }
 
-void waitUntil(int32_t ms){
-	while(TCNT0 < ms)
+void setUp(){
+	cli();
+	TCCR0 &= 0b11111000;				// Lösche Bits 0-2 (Timer stopped)
+	TCCR0 |= ((1<<CS02) | (1<<CS00));	// CS00 und CS02 setzen: Teiler 1024
+	TCNT0 = 255;
+	TIMSK |= (1<<TOIE0);				// Interrupt maskieren
+	
+	DDRB |= ((1 << 0) | (1 << 1));
+	
+	sei();
+}
+
+void waitUntil(uint32_t ms){
+	while(system_clock < ms)
 		;
 }
 
-void waitFor(int32_t ms){
-	if(TCNT0 + ms > 255){
-		ms = (TCNT0 + ms) % 255;
-	}
-	while(TCNT0 < ms)
+void waitFor(uint32_t ms){
+	uint32_t start_clock = system_clock;
+	while(system_clock < start_clock + ms)
 		;
 }
 
@@ -29,10 +46,12 @@ int main(void)
 {
 	setUp();
 	
+	waitUntil(500);
+	PORTB ^= (1 << 1);
+	
 	while(1){
-		waitFor(200);
+		waitFor(400);
 		PORTB ^= (1 << 0);
-		TCNT0 = 0;
 	}
 }
 
